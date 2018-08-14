@@ -8,8 +8,9 @@ from pygame import mixer
 # from pywinauto.application import Application
 
 mixer.init()
-mixer.music.load('C:/Users/Wojtek/Desktop/steve/assets/notification.mp3')
+###################
 notification_path = Path('steve/assets/notification.mp3').resolve()
+mixer.music.load(str(notification_path))
 
 invoked = False
 dictate_mode = False
