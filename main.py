@@ -1,7 +1,7 @@
 import commands
 import playsound as playsound
 import speech_recognition as sr
-import pyaudio, pyautogui
+import pyautogui
 from pathlib import Path
 from pygame import mixer
 # from pywinauto.application import Application
@@ -28,9 +28,9 @@ while True:
         # managing steve
 
         if req == "dictate":
+            mixer.music.play()
             command_mode = False
             dictate_mode = True
-            mixer.music.play()
 
         if dictate_mode:
             if req != "dictate" and req != "start listening":
@@ -46,8 +46,8 @@ while True:
             mixer.music.play()
 
         if req == "stop listening":
-            command_mode = False
             mixer.music.play()
+            command_mode = False
 
         #commands for OS management if in command mode
         if command_mode:
