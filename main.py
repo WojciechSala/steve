@@ -2,17 +2,17 @@ import commands
 import playsound as playsound
 import speech_recognition as sr
 import pyaudio, pyautogui
-import os, time
 from pathlib import Path
 from pygame import mixer
 # from pywinauto.application import Application
 
+# notification sound path find and load
 mixer.init()
-###################
-notification_path = Path('steve/assets/notification.mp3').resolve()
+notification_path = Path('assets/notification.mp3').resolve()
 mixer.music.load(str(notification_path))
 
-invoked = False
+# program's modes
+command_mode = False
 dictate_mode = False
 
 while True:
@@ -20,39 +20,40 @@ while True:
     with sr.Microphone() as source:
         print("Listening!")
         audio = r.listen(source)
-
+        keys = ["search", "space", "delete"]
     try:
 
         req = r.recognize_google(audio)
 
         # managing steve
+
         if req == "dictate":
-            invoked = False
+            command_mode = False
             dictate_mode = True
             mixer.music.play()
 
         if dictate_mode:
             if req != "dictate" and req != "start listening":
-                pyautogui.typewrite(req)
+                # wrie on screen only if keyword hasn't been said
+                if req not in keys:
+                    pyautogui.typewrite(req)
+                # else exec the command
                 commands.keyPress(req)
 
         if req == "start listening":
             dictate_mode = False
-            invoked = True
+            command_mode = True
             mixer.music.play()
 
         if req == "stop listening":
-            invoked = False
+            command_mode = False
             mixer.music.play()
 
-        #commands for OS management
-        if  req == "exit" and invoked:
-            break
+        #commands for OS management if in command mode
+        if command_mode:
+            commands.osManager(req)
 
-        elif req == "Google" and invoked:
-            os.system('"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"')
-
-        print("You said: ", req, "\nIncoked:", invoked, "\nDictateMode: ", dictate_mode)
+        print("You said: ", req, "\nCommandMode:", command_mode, "\nDictateMode: ", dictate_mode)
     except sr.UnknownValueError:
         print("Couldn't understand")
     except sr.RequestError as e:
