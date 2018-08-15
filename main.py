@@ -18,27 +18,18 @@ dictate_mode = False
 while True:
     r = sr.Recognizer()
     with sr.Microphone() as source:
-        print("Listening!")
+        # print("Listening!")
         audio = r.listen(source)
         keys = ["search", "space", "delete"]
     try:
 
         req = r.recognize_google(audio)
 
-        # managing steve
-
+        # changing modes
         if req == "dictate":
             mixer.music.play()
             command_mode = False
             dictate_mode = True
-
-        if dictate_mode:
-            if req != "dictate" and req != "start listening":
-                # wrie on screen only if keyword hasn't been said
-                if req not in keys:
-                    pyautogui.typewrite(req)
-                # else exec the command
-                commands.keyPress(req)
 
         if req == "start listening":
             dictate_mode = False
@@ -49,11 +40,21 @@ while True:
             mixer.music.play()
             command_mode = False
 
-        #commands for OS management if in command mode
+        # managing modes
         if command_mode:
             commands.osManager(req)
 
-        print("You said: ", req, "\nCommandMode:", command_mode, "\nDictateMode: ", dictate_mode)
+        if dictate_mode:
+            if req != "dictate" and req != "start listening":
+                # wrie on screen only if keyword hasn't been said
+                if req not in keys:
+                    pyautogui.typewrite(req)
+                # else exec the command
+                commands.keyPress(req)
+
+        print("You said: ", req, "\nCommandMode:", command_mode,
+            "\nDictateMode: ", dictate_mode, "\n---------")
+
     except sr.UnknownValueError:
         print("Couldn't understand")
     except sr.RequestError as e:
