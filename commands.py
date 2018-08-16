@@ -1,9 +1,8 @@
 import pyautogui
 import os
 from threading import Thread
-import win32api
 
-def keyPress(command):
+def key_press(command):
 	if command == "search":
 	    pyautogui.press('enter')
 	if command == "space":
@@ -11,8 +10,7 @@ def keyPress(command):
 	if command == "delete":
 	    pyautogui.press('backspace')
 
-def osManager(command):
-
+def os_manager(command):
 	# os main operations only on "OS" keyword
 	if command.startswith('OS'):
 		command[3:]

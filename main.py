@@ -1,15 +1,14 @@
 import commands
-import playsound as playsound
 import speech_recognition as sr
 import pyautogui
+import ctypes
 from pathlib import Path
 from pygame import mixer
-# from pywinauto.application import Application
 
-# notification sound path find and load
-mixer.init()
-notification_path = Path('assets/notification.mp3').resolve()
-mixer.music.load(str(notification_path))
+
+# minimizes console window, for complete concealment -> rename to .pyw
+ctypes.windll.user32.ShowWindow(
+    ctypes.windll.kernel32.GetConsoleWindow(), 6)
 
 # program's modes
 command_mode = False
@@ -18,11 +17,15 @@ dictate_mode = False
 while True:
     r = sr.Recognizer()
     with sr.Microphone() as source:
-        # print("Listening!")
+        print("Listening!")
         audio = r.listen(source)
-        keys = ["search", "space", "delete"]
-    try:
+        keys = ["search", "space", "delete", "stop listening"]
+        # notification sound path find and load
+        mixer.init()
+        notification_path = Path('assets/notification.mp3').resolve()
+        mixer.music.load(str(notification_path))
 
+    try:
         req = r.recognize_google(audio)
 
         # changing modes
@@ -39,10 +42,11 @@ while True:
         if req == "stop listening":
             mixer.music.play()
             command_mode = False
+            dictate_mode = False
 
         # managing modes
         if command_mode:
-            commands.osManager(req)
+            commands.os_manager(req)
 
         if dictate_mode:
             if req != "dictate" and req != "start listening":
@@ -50,10 +54,10 @@ while True:
                 if req not in keys:
                     pyautogui.typewrite(req)
                 # else exec the command
-                commands.keyPress(req)
+                commands.key_press(req)
 
-        print("You said: ", req, "\nCommandMode:", command_mode,
-            "\nDictateMode: ", dictate_mode, "\n---------")
+        print("You said: ", req, "\nCommand Mode:", command_mode,
+            "\nDictate Mode: ", dictate_mode, "\n----------------")
 
     except sr.UnknownValueError:
         print("Couldn't understand")
