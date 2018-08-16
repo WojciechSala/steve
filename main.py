@@ -19,7 +19,9 @@ while True:
     with sr.Microphone() as source:
         print("Listening!")
         audio = r.listen(source)
-        keys = ["search", "space", "delete", "stop listening"]
+        # gotta find another way not to write keywords
+        keys = ["search", "space", "delete", "stop listening", "comma",
+                "next line", "save"]
         # notification sound path find and load
         mixer.init()
         notification_path = Path('assets/notification.mp3').resolve()
