@@ -46,7 +46,7 @@ while True:
 
         if dictate_mode:
             if req != "dictate" and req != "start listening":
-                # wrie on screen only if keyword hasn't been said
+                # write on screen only if keyword hasn't been said
                 if req not in keys:
                     pyautogui.typewrite(req)
                 # else exec the command
