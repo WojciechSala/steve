@@ -7,7 +7,7 @@ def key_press(command):
 	if command == "search":
 	    pyautogui.press('enter')
 
-	if command == "space":
+	if command == "space" or command == "play" or command == "stop":
 	    pyautogui.press('space')
 
 	if command == "delete":

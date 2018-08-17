@@ -1,3 +1,12 @@
+"""
+The command actions are pretty slow caused by
+the google recognizer, first it's recording the command,
+creates audio file and later sends the file to cloud to recognize.
+
+To get faster response google cloud API (or replacement) is required
+for streaming the audio to the server immediately.
+"""
+
 import commands
 import speech_recognition as sr
 import pyautogui
