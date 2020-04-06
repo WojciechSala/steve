@@ -12,6 +12,8 @@ Steve is a voice OS manager. It simply manages your OS and other apps by command
 - The most interesting part lies behind the AI and using API just "black boxes" the whole project.
 - Dialects and different microphone settings are a big variables that change everything and need to be very specific to make recognition accurate.
 
+---
+
 ## Installation
 
 To run the project you will need [Python 2.5 or lower](https://www.python.org/downloads/release/python-252/) since the dependencies used in the project were removed in next versions.
